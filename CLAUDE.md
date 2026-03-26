@@ -52,3 +52,20 @@ Verdicts: BUILD (25-30), PIVOT (18-24), SCRAP (<18)
 
 Separate repo: https://github.com/RohanMuppa/devpost-mcp-server
 Configure it via npx in your Claude Code MCP settings to give `/hack:past-winners` and `/hack:deep-research` structured access to Devpost data.
+
+## TODO
+
+### /hack:find-papers — Research paper discovery for hackathon ideas
+Find relevant academic papers and extract implementable ideas. Not to cite or use their code, but to steal mental models and have credible technical backing for your pitch.
+
+What it would do:
+- Take your hackathon idea as input
+- Search for related papers (arxiv, Semantic Scholar, Google Scholar)
+- For each paper: extract the one transferable idea, whether it provides usable code/architecture, and the "judge credibility sentence" (one sentence you can say in a pitch that sounds informed)
+- Flag papers with open source implementations vs theory only
+
+Needs: an academic paper API or MCP. Options to evaluate:
+- Semantic Scholar API (free, no key needed, good search + citation data)
+- arxiv API (free, search + full text)
+- Existing MCP: search for "arxiv mcp" or "semantic scholar mcp" on GitHub
+- Could also use Perplexity or web search as a fallback
