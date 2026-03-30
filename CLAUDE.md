@@ -82,21 +82,6 @@ Verdicts: BUILD (25-30), PIVOT (18-24), SCRAP (<18)
 Separate repo: https://github.com/RohanMuppa/devpost-mcp-server
 Configure it via npx in your Claude Code MCP settings to give `/hack:past-winners` and `/hack:deep-research` structured access to Devpost data.
 
-## Potential Extensions
-
-### prompt-master — First-attempt-optimal prompts for 30+ AI tools
-Repo: https://github.com/nidhinjs/prompt-master
-
-Claude skill that runs a 7-step diagnostic pipeline to generate production-ready prompts for 30+ tools (Claude, ChatGPT, Cursor, Midjourney, DALL-E, Sora, ElevenLabs, etc.). Auto-selects from 12 templates (RTF, CO-STAR, RISEN, Chain of Thought, ReAct, Visual Descriptor, etc.) based on task type. Detects 35 common prompt mistakes.
-
-**Why it fits hstack**: Hackathons are high-velocity environments where vague prompts waste credits and time. Could integrate as:
-- Upstream tool before code generation (ensure prompt quality before Claude Code runs)
-- `/hack:prompt` command that loads hackathon context (team, stack, constraints) as a memory block
-- Fast-track mode that skips clarifying questions for rapid iteration
-- Multi-tool routing when pivoting between backend/frontend/design during a hack
-
-Install: clone to `~/.claude/skills/prompt-master` or upload to Claude.ai.
-
 ## TODO
 
 ### /hack:find-papers — Research paper discovery for hackathon ideas
@@ -113,3 +98,7 @@ Needs: an academic paper API or MCP. Options to evaluate:
 - arxiv API (free, search + full text)
 - Existing MCP: search for "arxiv mcp" or "semantic scholar mcp" on GitHub
 - Could also use Perplexity or web search as a fallback
+
+---
+
+[^1]: [prompt-master](https://github.com/nidhinjs/prompt-master) — Claude skill for generating prompts across 30+ tools. Mostly redundant (Claude handles prompt writing natively), but has useful syntax templates for image/video gen tools (Midjourney, ComfyUI, Stable Diffusion) if you need those during a hack.
