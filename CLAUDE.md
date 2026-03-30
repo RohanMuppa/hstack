@@ -1,14 +1,36 @@
 # hstack
 
-Hackathon command pack for Claude Code. Commands live in `.claude/commands/hack/`.
+Hackathon command pack for Claude Code.
 
-## Commands
+## Architecture
+
+hstack uses Skills 2.0 where possible. Key commands run as **forked subagents** with dedicated personas, tool restrictions, and persistent memory. Legacy commands in `.claude/commands/hack/` still work.
+
+### Custom Agents (`.claude/agents/`)
+
+| Agent | Purpose | Memory |
+|-------|---------|--------|
+| `hack-judge` | Ruthless 4-persona judge panel. Powers grill and stress-test. | project |
+| `hack-researcher` | Deep research across Devpost, GitHub, Twitter, HN, arxiv. | project |
+
+Agents accumulate knowledge across sessions via `.claude/agent-memory/`. The judge learns which questions trip teams up. The researcher learns what wins at specific hackathons.
+
+### Skills 2.0 (`.claude/skills/`)
+
+These run in **forked subagent contexts** with dynamic context injection:
+
+| Skill | Agent | What's different from v1 |
+|-------|-------|--------------------------|
+| `/hack-grill` | hack-judge | Isolated context, auto-reads all `.hackathon/` files, agent memory |
+| `/hack-stress-test` | hack-judge | Same judge persona, web search for novelty verification |
+| `/hack-deep-research` | hack-researcher | Isolated context, persistent research memory |
+
+### Legacy Commands (`.claude/commands/hack/`)
 
 | Command | Purpose |
 |---------|---------|
 | `/hack:tech-scan` | Scan trending tech and APIs, build tech context |
 | `/hack:gen-ideas` | Brainstorm 5 ideas scored on hackathon dimensions |
-| `/hack:stress-test` | Score one idea on 6 dimensions, build/pivot/scrap |
 | `/hack:cut-scope` | Ruthless MVP scoping with timeline and build vs fake |
 | `/hack:pick-track` | Analyze prize tracks, pick best submission strategy |
 | `/hack:past-winners` | Research what won at this hackathon before |
@@ -18,16 +40,23 @@ Hackathon command pack for Claude Code. Commands live in `.claude/commands/hack/
 | `/hack:plan-video` | Video production plan with Remotion prompt and Gemini voiceover |
 | `/hack:write-memo` | Technical memo or LaTeX research paper |
 | `/hack:write-devpost` | Devpost submission with bold formatting and 5Ws |
-| `/hack:deep-research` | Deep domain research across Devpost, Twitter, GitHub |
 | `/hack:full-run` | Run entire flow from tech scan to demo script |
+| `/hack:analyze-rules` | Extract submission requirements, constraints, deadlines from rules |
+| `/hack:catch-cheaters` | Mass scrape submissions and analyze for cheating with parallel agents |
+| `/hack:save-state` | Snapshot hackathon session state for resuming in fresh context |
+| `/hack:init` | Initialize hackathon project context in current repo |
 
 ## Conventions
 
-- All artifacts go to `.hackathon/` folder
-- Commands read `.hackathon/hackathon.md` for shared context (duration, tracks, team)
-- Commands read `.hackathon/tech-context.md` for trending tech
+- All artifacts go to `.hackathon/` folder **in the project repo** (not in hstack)
+- Run `/hack:init` in your project repo to set up `.hackathon/` with persistent context
+- Commands/skills read `.hackathon/hackathon.md` for shared context (duration, tracks, team)
+- Commands/skills read `.hackathon/tech-context.md` for trending tech
+- `.hackathon/state.md` tracks session progress and persists across context windows
+- Skills 2.0 auto-inject context via `!` shell commands (no manual reading needed)
 - Each command writes one output file; re-running overwrites
 - Output is under 1500 words per command
+- To resume in a fresh context: read `.hackathon/state.md` or run `/hack:save-state` before switching
 
 ## Scoring Dimensions (used by stress-test and gen-ideas)
 
