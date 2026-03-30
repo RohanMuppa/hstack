@@ -98,7 +98,3 @@ Needs: an academic paper API or MCP. Options to evaluate:
 - arxiv API (free, search + full text)
 - Existing MCP: search for "arxiv mcp" or "semantic scholar mcp" on GitHub
 - Could also use Perplexity or web search as a fallback
-
----
-
-[^1]: [prompt-master](https://github.com/nidhinjs/prompt-master) — Claude skill for generating prompts across 30+ tools. Mostly redundant (Claude handles prompt writing natively), but has useful syntax templates for image/video gen tools (Midjourney, ComfyUI, Stable Diffusion) if you need those during a hack.
